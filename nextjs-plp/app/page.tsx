@@ -1,10 +1,11 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import ProductListing from './components/ProductListing';
-import './globals.css';
 
-export async function generateMetadata({ searchParams }: { searchParams: { category?: string; sort?: string } }): Promise<Metadata> {
-  const category = searchParams.category || 'all';
-  const sort = searchParams.sort || 'featured';
+type SearchParams = { category?: string; sort?: string };
+
+export async function generateMetadata({ searchParams }: { searchParams?: SearchParams }): Promise<Metadata> {
+  const category = searchParams?.category ?? 'all';
+  const sort = searchParams?.sort ?? 'featured';
   
   return {
     title: 'Product Listing Page | Appscrip Task',
@@ -25,6 +26,7 @@ interface Product {
   price: number;
   description: string;
   category: string;
+  
   image: string;
   rating: {
     rate: number;
@@ -32,14 +34,24 @@ interface Product {
   };
 }
 
-export default async function HomePage({ searchParams }: { searchParams: { category?: string; sort?: string } }) {
-  // Fetch products from FakeStore API
-  const res = await fetch('https://fakestoreapi.com/products', { cache: 'no-store' });
-  const products: Product[] = await res.json();
+export default async function HomePage({ searchParams }: { searchParams?: SearchParams }) {
+  const category = searchParams?.category ?? 'all';
+  const sort = searchParams?.sort ?? 'featured';
 
-  // Filter products based on query params
-  const category = searchParams.category || 'all';
-  const sort = searchParams.sort || 'featured';
+  let products: Product[] = [];
+
+  try {
+    const res = await fetch('https://fakestoreapi.com/products', { cache: 'no-store' });
+
+    if (!res.ok) {
+      throw new Error(`FakeStore API failed: ${res.status}`);
+    }
+
+    products = await res.json();
+  } catch (err) {
+    console.error('Products fetch error:', err);
+    products = []; // safe fallback instead of crashing SSR
+  }
   
   const filteredProducts = category === 'all' 
     ? products 
@@ -53,7 +65,7 @@ export default async function HomePage({ searchParams }: { searchParams: { categ
       case 'price-desc':
         return b.price - a.price;
       case 'rating-desc':
-        return (b.rating?.rate || 0) - (a.rating?.rate || 0);
+        return (b.rating?.rate ?? 0) - (a.rating?.rate ?? 0);
       default:
         return 0; // featured
     }
