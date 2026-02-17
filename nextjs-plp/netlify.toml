@@ -5,10 +5,15 @@
 [build.environment]
   NODE_VERSION = "18"
 
-# Handle Next.js server-side rendering
+# Next.js App Router specific configuration
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  from = "/_next/data/*"
+  to = "/.netlify/builders/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/_next/image/*"
+  to = "/.netlify/builders/:splat"
   status = 200
 
 [[headers]]
@@ -22,3 +27,6 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
+
+[functions]
+  node_bundler = "esbuild"
