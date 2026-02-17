@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ProductListing from './components/ProductListing';
+import fetchProductsFromAPI from '../lib/mockApi';
 
 type SearchParams = { category?: string; sort?: string };
 
@@ -38,20 +39,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Search
   const category = searchParams?.category ?? 'all';
   const sort = searchParams?.sort ?? 'featured';
 
-  let products: Product[] = [];
-
-  try {
-    const res = await fetch('https://fakestoreapi.com/products', { cache: 'no-store' });
-
-    if (!res.ok) {
-      throw new Error(`FakeStore API failed: ${res.status}`);
-    }
-
-    products = await res.json();
-  } catch (err) {
-    console.error('Products fetch error:', err);
-    products = []; // safe fallback instead of crashing SSR
-  }
+  // Use mock API with fallback to real API
+  const products = await fetchProductsFromAPI();
   
   const filteredProducts = category === 'all' 
     ? products 
@@ -94,11 +83,8 @@ export default async function HomePage({ searchParams }: { searchParams?: Search
           })
         }}
       />
-      <ProductListing 
-        products={sortedProducts}
-        category={category}
-        sort={sort}
-      />
+
+      <ProductListing products={sortedProducts} category={category} sort={sort} />
     </>
   );
 }
