@@ -1,21 +1,21 @@
-// Sample product data for HTML version
+// Sample product data for HTML version with working images
 const products = [
-  { id: 1, name: "Fjallraven Backpack", price: 109.95, category: "men's clothing", rating: 3.9 },
-  { id: 2, name: "Mens Casual T-Shirt", price: 22.3, category: "men's clothing", rating: 4.1 },
-  { id: 3, name: "Mens Cotton Jacket", price: 55.99, category: "men's clothing", rating: 4.7 },
-  { id: 4, name: "Mens Slim Fit", price: 15.99, category: "men's clothing", rating: 2.1 },
-  { id: 5, name: "Women's Bracelet", price: 695, category: "jewelery", rating: 4.0 },
-  { id: 6, name: "Solid Gold Ring", price: 168, category: "jewelery", rating: 3.9 },
-  { id: 7, name: "White Gold Princess", price: 9.99, category: "jewelery", rating: 3.0 },
-  { id: 8, name: "Pierced Owl Ring", price: 10.99, category: "jewelery", rating: 1.9 },
-  { id: 9, name: "WD 2TB Hard Drive", price: 64, category: "electronics", rating: 3.3 },
-  { id: 10, name: "SanDisk SSD 1TB", price: 109, category: "electronics", rating: 4.8 },
-  { id: 11, name: "Silicon Power 256GB SSD", price: 109, category: "electronics", rating: 4.8 },
-  { id: 12, name: "WD 4TB Gaming Drive", price: 114, category: "electronics", rating: 4.8 },
-  { id: 13, name: "Acer SB220Q Monitor", price: 599, category: "electronics", rating: 2.8 },
-  { id: 14, name: "Samsung 49\" Monitor", price: 999.99, category: "electronics", rating: 4.2 },
-  { id: 15, name: "Women's Snowboard Jacket", price: 56.99, category: "women's clothing", rating: 2.6 },
-  { id: 16, name: "Women's Leather Jacket", price: 29.95, category: "women's clothing", rating: 2.9 }
+  { id: 1, name: "Fjallraven Backpack", price: 109.95, category: "men's clothing", rating: 3.9, image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg" },
+  { id: 2, name: "Mens Casual T-Shirt", price: 22.3, category: "men's clothing", rating: 4.1, image: "https://fakestoreapi.com/img/71-3HjGNDL._SY879._SX342_.jpg" },
+  { id: 3, name: "Mens Cotton Jacket", price: 55.99, category: "men's clothing", rating: 4.7, image: "https://fakestoreapi.com/img/71li-3A3U._SY879._SX342_.jpg" },
+  { id: 4, name: "Mens Slim Fit", price: 15.99, category: "men's clothing", rating: 2.1, image: "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg" },
+  { id: 5, name: "Women's Bracelet", price: 695, category: "jewelery", rating: 4.0, image: "https://fakestoreapi.com/img/71pWzhdJN._AC_UL640_.jpg" },
+  { id: 6, name: "Solid Gold Ring", price: 168, category: "jewelery", rating: 3.9, image: "https://fakestoreapi.com/img/61sbEcceuXL._AC_UL640_.jpg" },
+  { id: 7, name: "White Gold Princess", price: 9.99, category: "jewelery", rating: 3.0, image: "https://fakestoreapi.com/img/72Ezfm6mEL._AC_UL640_.jpg" },
+  { id: 8, name: "Pierced Owl Ring", price: 10.99, category: "jewelery", rating: 1.9, image: "https://fakestoreapi.com/img/85kL3ktXlL._AC_UL640_.jpg" },
+  { id: 9, name: "WD 2TB Hard Drive", price: 64, category: "electronics", rating: 3.3, image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.png" },
+  { id: 10, name: "SanDisk SSD 1TB", price: 109, category: "electronics", rating: 4.8, image: "https://fakestoreapi.com/img/61U7dT1MGL._AC_SX679_.png" },
+  { id: 11, name: "Silicon Power 256GB SSD", price: 109, category: "electronics", rating: 4.8, image: "https://fakestoreapi.com/img/71kWymZCnL._AC_SX679_.jpg" },
+  { id: 12, name: "WD 4TB Gaming Drive", price: 114, category: "electronics", rating: 4.8, image: "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.png" },
+  { id: 13, name: "Acer Monitor", price: 599, category: "electronics", rating: 2.8, image: "https://fakestoreapi.com/img/81QASiB0CxL._AC_SX679_.jpg" },
+  { id: 14, name: "Samsung 49\" Monitor", price: 999.99, category: "electronics", rating: 4.2, image: "https://fakestoreapi.com/img/81ZpkFo7L._AC_SX679_.jpg" },
+  { id: 15, name: "Women's Snowboard Jacket", price: 56.99, category: "women's clothing", rating: 2.6, image: "https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_.png" },
+  { id: 16, name: "Women's Leather Jacket", price: 29.95, category: "women's clothing", rating: 2.9, image: "https://fakestoreapi.com/img/81XH0e8fefL._AC_UY879_.png" }
 ];
 
 let currentProducts = [...products];
@@ -36,7 +36,9 @@ function renderProducts(productsToRender) {
     const card = document.createElement('article');
     card.className = 'card';
     card.innerHTML = `
-      <img class="card-img" src="./assets/placeholder-product.webp" alt="Product image placeholder" />
+      <img class="card-img" src="${product.image}" alt="Product image of ${product.name}" 
+           onerror="this.src='./assets/placeholder-product.webp'; console.error('Image failed to load:', this.src);"
+           onload="console.log('Image loaded successfully:', this.src);" />
       <div class="card-body">
         <h3 class="card-title">${product.name}</h3>
         <p class="card-meta">${product.category} • ★ ${product.rating}</p>
