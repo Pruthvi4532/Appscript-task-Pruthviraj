@@ -26,11 +26,17 @@ export default function ProductListing({ products, category, sort }: ProductList
   };
 
   const handleCategoryChange = (newCategory: string) => {
-    window.location.href = `/?category=${encodeURIComponent(newCategory)}&sort=${sort}`;
+    const url = new URL(window.location.href);
+    url.searchParams.set('category', newCategory);
+    url.searchParams.set('sort', sort);
+    window.location.href = url.toString();
   };
 
   const handleSortChange = (newSort: string) => {
-    window.location.href = `/?category=${encodeURIComponent(category)}&sort=${newSort}`;
+    const url = new URL(window.location.href);
+    url.searchParams.set('category', category);
+    url.searchParams.set('sort', newSort);
+    window.location.href = url.toString();
   };
 
   return (
@@ -57,7 +63,7 @@ export default function ProductListing({ products, category, sort }: ProductList
           <section className="plp-hero">
             <h1 className="plp-title">Discover Products</h1>
             <p className="plp-subtitle">
-              Server-rendered PLP with filters, sorting, responsive grid and clean SEO.
+              Static PLP with filters, sorting, responsive grid and clean SEO.
             </p>
           </section>
 
@@ -120,7 +126,7 @@ export default function ProductListing({ products, category, sort }: ProductList
                   className="product-image"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjhGOUZBIi8+CjxwYXRoIGQ9Ik04NSA3NUgxMTVWMTA1SDg1Vjc1WiIgZmlsbD0iI0QxRDVEQiIvPgo8cGF0aCBkPSJNMTAwIDkwSDEzMFYxMDBIMTAwVjkwWiIgZmlsbD0iI0QxRDVEQiIvPgo8L3N2Zz4K';
+                    target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjhGOUZBIi8+CjxwYXRoIGQ9Ik04NSA3NUgxMTVWMTA1SDg1Vjc1WiIgZmlsbD0iI0QxRDVEQiIvPgo8L3N2Zz4K';
                   }}
                 />
                 <div className="product-info">
