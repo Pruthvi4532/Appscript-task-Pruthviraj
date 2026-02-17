@@ -1,18 +1,16 @@
 [build]
-  publish = "out"
+  publish = ".next"
   command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
 
-# Handle SPA routing - redirect all requests to index.html
+# Handle Next.js server-side rendering
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
   status = 200
-  force = false
 
-# Headers for static assets
 [[headers]]
   for = "_next/static/*"
   [headers.values]

@@ -1,8 +1,23 @@
-'use client';
-
+import { Metadata } from 'next';
 import ProductListing from './components/ProductListing';
 import './globals.css';
-import { useEffect, useState } from 'react';
+
+export async function generateMetadata({ searchParams }: { searchParams: { category?: string; sort?: string } }): Promise<Metadata> {
+  const category = searchParams.category || 'all';
+  const sort = searchParams.sort || 'featured';
+  
+  return {
+    title: 'Product Listing Page | Appscrip Task',
+    description: `Browse ${category} products sorted by ${sort}. Find best deals on quality products.`,
+    keywords: 'product listing, e-commerce, responsive, seo, next.js',
+    openGraph: {
+      title: 'Product Listing Page | Appscrip Task',
+      description: `Browse ${category} products sorted by ${sort}. Find best deals on quality products.`,
+      type: 'website',
+    },
+    robots: 'index, follow',
+  };
+}
 
 interface Product {
   id: number;
@@ -17,55 +32,32 @@ interface Product {
   };
 }
 
-export default function HomePage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [category, setCategory] = useState('all');
-  const [sort, setSort] = useState('featured');
-  const [loading, setLoading] = useState(true);
+export default async function HomePage({ searchParams }: { searchParams: { category?: string; sort?: string } }) {
+  // Fetch products from FakeStore API
+  const res = await fetch('https://fakestoreapi.com/products', { cache: 'no-store' });
+  const products: Product[] = await res.json();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch('https://fakestoreapi.com/products');
-        const allProducts: Product[] = await res.json();
+  // Filter products based on query params
+  const category = searchParams.category || 'all';
+  const sort = searchParams.sort || 'featured';
+  
+  const filteredProducts = category === 'all' 
+    ? products 
+    : products.filter(product => product.category === category);
 
-        // Filter products based on URL params
-        const urlParams = new URLSearchParams(window.location.search);
-        const categoryParam = urlParams.get('category') || 'all';
-        const sortParam = urlParams.get('sort') || 'featured';
-        
-        setCategory(categoryParam);
-        setSort(sortParam);
-
-        const filteredProducts = categoryParam === 'all' 
-          ? allProducts 
-          : allProducts.filter(product => product.category === categoryParam);
-
-        // Sort products
-        const sortedProducts = [...filteredProducts].sort((a, b) => {
-          switch (sortParam) {
-            case 'price-asc':
-              return a.price - b.price;
-            case 'price-desc':
-              return b.price - a.price;
-            case 'rating-desc':
-              return (b.rating?.rate || 0) - (a.rating?.rate || 0);
-            default:
-              return 0; // featured
-          }
-        });
-
-        setProducts(sortedProducts);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  // Sort products
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sort) {
+      case 'price-asc':
+        return a.price - b.price;
+      case 'price-desc':
+        return b.price - a.price;
+      case 'rating-desc':
+        return (b.rating?.rate || 0) - (a.rating?.rate || 0);
+      default:
+        return 0; // featured
+    }
+  });
 
   return (
     <>
@@ -79,7 +71,7 @@ export default function HomePage() {
             "description": `Browse ${category} products sorted by ${sort}`,
             "mainEntity": {
               "@type": "ItemList",
-              "itemListElement": products.slice(0, 12).map((product, index) => ({
+              "itemListElement": sortedProducts.slice(0, 12).map((product, index) => ({
                 "@type": "ListItem",
                 "position": index + 1,
                 "url": `https://appscrip-task-pruthviraj.vercel.app/product/${product.id}`,
@@ -90,24 +82,11 @@ export default function HomePage() {
           })
         }}
       />
-      
-      {loading ? (
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          height: '50vh',
-          fontSize: '1.2rem'
-        }}>
-          Loading products...
-        </div>
-      ) : (
-        <ProductListing 
-          products={products}
-          category={category}
-          sort={sort}
-        />
-      )}
+      <ProductListing 
+        products={sortedProducts}
+        category={category}
+        sort={sort}
+      />
     </>
   );
 }

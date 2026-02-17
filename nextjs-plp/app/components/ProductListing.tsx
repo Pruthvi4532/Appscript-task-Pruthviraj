@@ -63,7 +63,7 @@ export default function ProductListing({ products, category, sort }: ProductList
           <section className="plp-hero">
             <h1 className="plp-title">Discover Products</h1>
             <p className="plp-subtitle">
-              Static PLP with filters, sorting, responsive grid and clean SEO.
+              Server-rendered PLP with filters, sorting, responsive grid and clean SEO.
             </p>
           </section>
 
