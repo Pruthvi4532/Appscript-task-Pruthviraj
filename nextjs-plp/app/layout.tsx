@@ -1,38 +1,3 @@
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Product Listing Page | Appscrip Task',
-  description: 'SSR product listing page with filters, sorting, responsive grid and SEO optimization.',
-  keywords: 'product listing, e-commerce, responsive, seo, next.js',
-  authors: [{ name: 'Pruthviraj' }],
-  openGraph: {
-    title: 'Product Listing Page | Appscrip Task',
-    description: 'SSR PLP with responsive design and SEO optimization',
-    type: 'website',
-    url: 'https://appscrip-task-pruthviraj.vercel.app',
-    images: [
-      {
-        url: 'https://appscrip-task-pruthviraj.vercel.app/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Appscrip Product Listing Page'
-      }
-    ]
-  },
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@pruthviraj'
-  },
-  robots: {
-    index: true,
-    follow: true
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1
-  }
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -43,31 +8,28 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{metadata.title?.toString()}</title>
-        <meta name="description" content={metadata.description?.toString()} />
-        <meta name="keywords" content={metadata.keywords?.toString()} />
-        <meta name="author" content={metadata.authors?.map(author => author.name).join(', ')} />
+        <title>Product Listing Page | Appscrip Task</title>
+        <meta name="description" content="SSR product listing page with filters, sorting, responsive grid and SEO optimization." />
+        <meta name="keywords" content="product listing, e-commerce, responsive, seo, next.js" />
+        <meta name="author" content="Pruthviraj" />
         
         {/* Open Graph */}
-        <meta property="og:title" content={metadata.openGraph?.title} />
-        <meta property="og:description" content={metadata.openGraph?.description} />
-        <meta property="og:type" content={metadata.openGraph?.type} />
-        <meta property="og:url" content={metadata.openGraph?.url} />
-        <meta property="og:image" content={metadata.openGraph?.images?.[0]?.url} />
-        <meta property="og:image:width" content={metadata.openGraph?.images?.[0]?.width} />
-        <meta property="og:image:height" content={metadata.openGraph?.images?.[0]?.height} />
-        <meta property="og:image:alt" content={metadata.openGraph?.images?.[0]?.alt} />
+        <meta property="og:title" content="Product Listing Page | Appscrip Task" />
+        <meta property="og:description" content="SSR PLP with responsive design and SEO optimization" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://appscrip-task-pruthviraj.vercel.app" />
+        <meta property="og:image" content="https://appscrip-task-pruthviraj.vercel.app/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Appscrip Product Listing Page" />
         
         {/* Twitter */}
-        <meta name="twitter:card" content={metadata.twitter?.card} />
-        <meta name="twitter:creator" content={metadata.twitter?.creator} />
-        <meta name="twitter:image" content={metadata.openGraph?.images?.[0]?.url} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@pruthviraj" />
+        <meta name="twitter:image" content="https://appscrip-task-pruthviraj.vercel.app/og-image.jpg" />
         
         {/* Robots */}
-        <meta name="robots" content={metadata.robots?.index ? 'index, follow' : 'noindex, nofollow'} />
-        
-        {/* Viewport */}
-        <meta name="viewport" content={metadata.viewport?.width} />
+        <meta name="robots" content="index, follow" />
         
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
