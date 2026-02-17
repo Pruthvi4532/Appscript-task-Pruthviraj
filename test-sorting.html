@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sorting Test</title>
+</head>
+<body>
+    <h1>Testing Sorting Features</h1>
+    
+    <h2>HTML/CSS Version</h2>
+    <a href="http://localhost:8000" target="_blank">Open HTML Version</a>
+    <ul>
+        <li>Click filter chips (All, Men, Women, Electronics, Jewelery)</li>
+        <li>Use sort dropdown (Price: Low to High, Price: High to Low, Rating)</li>
+        <li>Check if products reorder correctly</li>
+    </ul>
+    
+    <h2>Next.js SSR Version</h2>
+    <a href="http://localhost:3000" target="_blank">Open Next.js Version</a>
+    <ul>
+        <li><a href="http://localhost:3000/?sort=price_asc" target="_blank">Price: Low to High</a></li>
+        <li><a href="http://localhost:3000/?sort=price_desc" target="_blank">Price: High to Low</a></li>
+        <li><a href="http://localhost:3000/?sort=rating_desc" target="_blank">Rating (High to Low)</a></li>
+        <li><a href="http://localhost:3000/?category=electronics" target="_blank">Electronics Category</a></li>
+        <li><a href="http://localhost:3000/?category=jewelery" target="_blank">Jewelery Category</a></li>
+    </ul>
+    
+    <h2>Expected Behavior</h2>
+    <ul>
+        <li>Price Low to High: Cheapest products should appear first</li>
+        <li>Price High to Low: Most expensive products should appear first</li>
+        <li>Rating: Highest rated products (4.5-5.0) should appear first</li>
+        <li>Category filters: Only products from selected category should show</li>
+    </ul>
+</body>
+</html>
